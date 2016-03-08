@@ -6,7 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
@@ -33,6 +32,8 @@ public class MainActivity extends Activity implements SensorEventListener {
                 sensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY),
                 sensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this,sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY),
+                sensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
@@ -54,13 +55,16 @@ public class MainActivity extends Activity implements SensorEventListener {
                         + (event.values[0] - gravity[0]) + "\n"
                         + "Y:" + (event.values[1] - gravity[1]) + "\n"
                         + "Z:" + (event.values[2] - gravity[2]) + "\n";
-                Log.d("z",String.valueOf(event.values[2]-gravity[2]));
+//                Log.d("z",String.valueOf(event.values[2]-gravity[2]));
                 tvAccelerometer.setText(accelerometer);
                 break;
             case Sensor.TYPE_GRAVITY:
                 gravity[0] = event.values[0];
                 gravity[1] = event.values[1];
                 gravity[2] = event.values[2];
+                break;
+            case Sensor.TYPE_PROXIMITY:
+                tvAccelerometer.setText(String.valueOf(event.values[0]));
                 break;
             default:
                 break;
